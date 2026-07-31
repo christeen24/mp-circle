@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useState } from "react"
+import { Link } from "react-router-dom"
 import {
   Button,
   InputGroup,
@@ -7,7 +7,8 @@ import {
   InputGroupInput,
   InputGroupButton,
   Label,
-} from "@/components/ui";
+  Spinner,
+} from "@/components/ui"
 
 import {
   GraduationCapIcon,
@@ -18,39 +19,52 @@ import {
   EyeClosedIcon,
   EyeIcon,
   LockKeyholeIcon,
-} from "lucide-react";
+} from "lucide-react"
+
+import { useMutation } from "@tanstack/react-query"
+import { loginWithEmail } from "@/api/auth"
+import { useNavigate } from "react-router-dom"
+import type { LoginResponse } from "@/interfaces/user"
+import { useAuth } from "@/hooks/use-auth"
+import { ROUTES } from "@/constants/routes"
+
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { LoginSchema, type LoginSchemaType } from "@/validation/login-schema"
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [showEmailError, setShowEmailError] = useState(false);
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false)
+  const [serverError, setServerError] = useState<string | null>(null)
+  const navigate = useNavigate()
+  const { login } = useAuth()
 
-  function handleLogin(e: React.FormEvent) {
-    e.preventDefault();
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginSchemaType>({
+    resolver: zodResolver(LoginSchema),
+  })
 
-    const isAcademic =
-      email.includes(".edu") || email.includes(".ac") || email.includes(".de");
+  const loginMutation = useMutation<LoginResponse, Error, LoginSchemaType>({
+    mutationFn: ({ email, password }) => loginWithEmail(email, password),
+    onSuccess: (data) => {
+      login(data)
+      navigate(ROUTES.DASHBOARD)
+    },
+    onError: (error) => {
+      setServerError(error.message)
+    },
+  })
 
-    if (!isAcademic) {
-      setShowEmailError(true);
-      return;
-    }
-
-    setShowEmailError(false);
-    setLoading(true);
-
-    setTimeout(() => {
-      alert("Success: Logging you into the student portal.");
-      setLoading(false);
-    }, 1500);
+  function onSubmit(values: LoginSchemaType) {
+    setServerError(null)
+    loginMutation.mutate(values)
   }
 
   return (
-    <div className="bg-background relative flex min-h-screen w-full items-center justify-center px-4">
-      {/* Card */}
-      <main className="bg-card border border-border mx-auto w-full max-w-[420px] rounded-xl p-8 shadow-md">
+    <div className="relative flex min-h-screen w-full items-center justify-center bg-background px-4">
+      <main className="mx-auto w-full max-w-105 rounded-xl border border-border bg-card p-8 shadow-md">
         <div className="mb-8 flex flex-col items-center">
           <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-primary">
             <GraduationCapIcon className="h-8 w-8 text-primary-foreground" />
@@ -63,11 +77,12 @@ export default function LoginPage() {
         </div>
 
         {/* Form */}
-        <form className="space-y-6" onSubmit={handleLogin}>
+        <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
+          {/* Email */}
           <div className="space-y-2">
             <Label
               htmlFor="email"
-              className="text-xs font-semibold tracking-wide uppercase text-muted-foreground"
+              className="text-xs font-semibold tracking-wide text-muted-foreground uppercase"
             >
               Student Email
             </Label>
@@ -81,25 +96,25 @@ export default function LoginPage() {
                 id="email"
                 type="email"
                 placeholder="e.g. student@university.edu"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                className="bg-muted border-border text-foreground placeholder:text-muted-foreground"
+                {...register("email")}
+                className="border-border bg-muted text-foreground placeholder:text-muted-foreground"
               />
             </InputGroup>
 
-            {showEmailError && (
+            {errors.email && (
               <p className="flex items-center gap-1 text-xs text-destructive">
                 <InfoIcon className="h-4 w-4" />
-                Please enter a valid academic email address.
+                {errors.email.message}
               </p>
             )}
           </div>
 
+          {/* Password */}
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label
                 htmlFor="password"
-                className="text-xs font-semibold tracking-wide uppercase text-muted-foreground"
+                className="text-xs font-semibold tracking-wide text-muted-foreground uppercase"
               >
                 Password
               </Label>
@@ -122,9 +137,8 @@ export default function LoginPage() {
                   id="password"
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  className="bg-muted border-border text-foreground placeholder:text-muted-foreground"
+                  {...register("password")}
+                  className="border-border bg-muted text-foreground placeholder:text-muted-foreground"
                 />
 
                 <InputGroupButton
@@ -136,22 +150,31 @@ export default function LoginPage() {
                 </InputGroupButton>
               </InputGroup>
             </div>
+
+            {errors.password && (
+              <p className="flex items-center gap-1 text-xs text-destructive">
+                <InfoIcon className="h-4 w-4" />
+                {errors.password.message}
+              </p>
+            )}
+
+            {serverError && (
+              <p className="flex items-center gap-1 text-xs text-destructive">
+                <InfoIcon className="h-4 w-4" />
+                {serverError}
+              </p>
+            )}
           </div>
 
+          {/* Submit */}
           <Button
             type="submit"
-            className="
-              flex w-full items-center justify-center gap-2 rounded-lg
-              bg-primary py-3 text-xs font-bold tracking-widest uppercase
-              text-primary-foreground
-            "
-            disabled={loading}
+            className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary py-3 text-xs font-bold tracking-widest text-primary-foreground uppercase"
+            disabled={loginMutation.isPending}
           >
-            {loading ? (
+            {loginMutation.isPending ? (
               <>
-                <span className="material-symbols-outlined animate-spin">
-                  progress_activity
-                </span>
+                <Spinner className="h-4 w-4 text-primary-foreground" />
                 Authenticating...
               </>
             ) : (
@@ -170,10 +193,7 @@ export default function LoginPage() {
 
           <Link
             to="#"
-            className="
-              group flex items-center gap-2 text-xs font-bold tracking-wide
-              text-primary uppercase transition-all hover:gap-3
-            "
+            className="group flex items-center gap-2 text-xs font-bold tracking-wide text-primary uppercase transition-all hover:gap-3"
           >
             <InfoIcon className="h-4 w-4" />
             Contact Student Support
@@ -181,26 +201,6 @@ export default function LoginPage() {
           </Link>
         </div>
       </main>
-
-      {/* Footer */}
-      <footer className="fixed bottom-6 w-full px-4 text-center">
-        <p className="text-xs text-muted-foreground">
-          © 2026 MP Circle Educational Systems. All rights reserved.
-          <br className="md:hidden" />
-          <Link
-            to="#"
-            className="mx-2 underline underline-offset-2 hover:text-primary"
-          >
-            Privacy Policy
-          </Link>
-          <Link
-            to="#"
-            className="mx-2 underline underline-offset-2 hover:text-primary"
-          >
-            Terms of Use
-          </Link>
-        </p>
-      </footer>
     </div>
-  );
+  )
 }

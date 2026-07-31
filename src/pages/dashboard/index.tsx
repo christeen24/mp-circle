@@ -15,12 +15,22 @@ import {
   GraduationCap,
 } from "lucide-react"
 
+import { useCourses } from "@/hooks/use-courses";
+import { useAssignments } from "@/hooks/use-assignments";
+import { useAuth } from "@/hooks/use-auth";
+
+
 export default function DashboardPage() {
+
+  const { user } = useAuth();
+const { data: courses } = useCourses();
+const { data: assignments } = useAssignments();
+
   const greeting = (() => {
     const hour = new Date().getHours()
-    if (hour < 12) return "Good Morning, Christeen"
-    if (hour < 18) return "Good Afternoon, Christeen"
-    return "Good Evening, Christeen"
+    if (hour < 12) return `Good Morning, ${user?.firstName + " " + user?.lastName || "there"}`
+    if (hour < 18) return `Good Afternoon, ${user?.firstName + " " + user?.lastName || "there"}`
+    return `Good Evening, ${user?.firstName + " " + user?.lastName || "there"}`
   })()
 
   return (
@@ -48,7 +58,7 @@ export default function DashboardPage() {
                 <p className="text-on-surface-variant text-xs font-semibold">
                   Total Courses
                 </p>
-                <p className="text-2xl font-bold">6</p>
+                <p className="text-2xl font-bold">{courses?.length || 0}</p>
               </div>
             </Card>
 
@@ -60,7 +70,7 @@ export default function DashboardPage() {
                 <p className="text-on-surface-variant text-xs font-semibold">
                   Upcoming Assignments
                 </p>
-                <p className="text-2xl font-bold">3</p>
+                <p className="text-2xl font-bold">{assignments?.length || 0}</p>
               </div>
             </Card>
 
@@ -110,7 +120,6 @@ export default function DashboardPage() {
                   progress={75}
                   image="https://lh3.googleusercontent.com/aida-public/AB6AXuD1mTuuWH6wVtt6kpgO-FNAHg2GEb8HVN6gcwFkHtstqdJBCPQcUxVlI3N2XnHc69BFDZ4ngVGfKSCDn5TfT1KvAvDoMEQ5exUZFD1ovmmuP91oD0MdkjmIJRcl_7s-haKa1UG4XBB5CAzjuk_DtWwnEZdS8UAwvE2NN61F7qRy2A8yRC3qcXSAuTJQQ9VmHcqlbkAv2VY4Y8N0NQHzgtoZ2CQNcDZKGdDxMvDM56h0YIDM2PbDH4IPPQ"
                 />
-
                 <DashboardCourseCard
                   title="Artificial Intelligence"
                   code="CS-501"
