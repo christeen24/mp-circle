@@ -35,50 +35,14 @@ import {
   MoreHorizontal,
 } from "lucide-react"
 import { AppLayout } from "@/components/layout/app-layout"
+import { useAssignments } from "@/hooks/use-assignments"
+import { getAssignmentStats } from "@/lib/assignments"
 
 export default function AssignmentsPage() {
-  const assignments = [
-    {
-      id: "1",
-      title: "Case Study: Neural Network Optimization",
-      course: "CS 402: Deep Learning",
-      due: "Oct 24, 2023",
-      priority: "High",
-      status: "Pending",
-    },
-    {
-      id: "2",
-      title: "Final Project: Database Architecture",
-      course: "CS 305: Database Systems",
-      due: "Nov 02, 2023",
-      priority: "Medium",
-      status: "Submitted",
-    },
-    {
-      id: "3",
-      title: "Weekly Quiz: Cloud Infrastructure",
-      course: "CS 415: Distributed Systems",
-      due: "Oct 20, 2023",
-      priority: "Low",
-      status: "Late",
-    },
-    {
-      id: "4",
-      title: "Ethics in Artificial Intelligence",
-      course: "PHI 202: Tech Ethics",
-      due: "Oct 28, 2023",
-      priority: "High",
-      status: "Pending",
-    },
-    {
-      id: "5",
-      title: "Lab 4: Memory Management in C",
-      course: "CS 210: Systems Programming",
-      due: "Oct 18, 2023",
-      priority: "Closed",
-      status: "Submitted",
-    },
-  ]
+  const { data: assignments = [] } = useAssignments()
+
+  const { pending, submitted, late, nextDeadline, nextDeadlineDays } =
+    getAssignmentStats(assignments)
 
   const [page, setPage] = useState(1)
   const pageSize = 5
@@ -104,7 +68,7 @@ export default function AssignmentsPage() {
           <MetricCard
             icon={ClipboardClockIcon}
             label="Pending"
-            value={12}
+            value={pending}
             iconColor="text-muted-foreground"
             iconBg="bg-card"
           />
@@ -112,7 +76,7 @@ export default function AssignmentsPage() {
           <MetricCard
             icon={CircleCheckIcon}
             label="Submitted"
-            value={48}
+            value={submitted}
             iconColor="text-primary"
             iconBg="bg-card"
           />
@@ -120,7 +84,7 @@ export default function AssignmentsPage() {
           <MetricCard
             icon={CalendarXIcon}
             label="Late"
-            value={1}
+            value={late}
             iconColor="text-destructive"
             iconBg="bg-card"
           />
@@ -128,8 +92,12 @@ export default function AssignmentsPage() {
           <MetricCard
             icon={CalendarIcon}
             label="Next Deadline"
-            value="2 days left"
-            subLabel="Advanced Calculus II"
+            value={
+              nextDeadlineDays !== null
+                ? `${nextDeadlineDays} days left`
+                : "No upcoming"
+            }
+            subLabel={nextDeadline ? nextDeadline.course : ""}
             accent
           />
         </div>
@@ -162,7 +130,11 @@ export default function AssignmentsPage() {
                   <TableCell className="text-muted-foreground">
                     <div className="flex items-center gap-2">
                       <Calendar className="h-4 w-4" />
-                      {a.due}
+                      {new Date(a.dueDate).toLocaleDateString("en-US", {
+                        month: "short",
+                        day: "numeric",
+                        year: "numeric",
+                      })}
                     </div>
                   </TableCell>
 
@@ -184,28 +156,36 @@ export default function AssignmentsPage() {
 
                   {/* Status */}
                   <TableCell>
-                    <Badge
-                      className={
-                        a.status === "Pending"
-                          ? "bg-muted text-foreground"
-                          : a.status === "Submitted"
-                            ? "bg-secondary text-secondary-foreground"
-                            : "bg-destructive text-destructive-foreground"
-                      }
-                    >
-                      <span className="flex items-center gap-1">
-                        {a.status === "Pending" && (
-                          <Clock className="h-4 w-4" />
-                        )}
-                        {a.status === "Submitted" && (
-                          <CircleCheck className="h-4 w-4" />
-                        )}
-                        {a.status === "Late" && (
-                          <AlertCircle className="h-4 w-4" />
-                        )}
-                        {a.status}
-                      </span>
-                    </Badge>
+                    {(() => {
+                      const isLateAssignment =
+                        new Date(a.dueDate).getTime() < Date.now() &&
+                        a.status !== "Submitted"
+
+                      return (
+                        <Badge
+                          className={
+                            isLateAssignment
+                              ? "bg-destructive text-destructive-foreground"
+                              : a.status === "Pending"
+                                ? "bg-muted text-foreground"
+                                : "bg-secondary text-secondary-foreground"
+                          }
+                        >
+                          <span className="flex items-center gap-1">
+                            {isLateAssignment && (
+                              <AlertCircle className="h-4 w-4" />
+                            )}
+                            {!isLateAssignment && a.status === "Pending" && (
+                              <Clock className="h-4 w-4" />
+                            )}
+                            {!isLateAssignment && a.status === "Submitted" && (
+                              <CircleCheck className="h-4 w-4" />
+                            )}
+                            {isLateAssignment ? "Late" : a.status}
+                          </span>
+                        </Badge>
+                      )
+                    })()}
                   </TableCell>
 
                   {/* Actions */}

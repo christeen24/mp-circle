@@ -1,0 +1,42 @@
+[
+  {
+    "id": "1",
+    "title": "Case Study: Neural Network Optimization",
+    "course": "CS 402: Deep Learning",
+    "dueDate": "2026-08-12",
+    "priority": "High",
+    "status": "Pending"
+  },
+  {
+    "id": "2",
+    "title": "Final Project: Database Architecture",
+    "course": "CS 305: Database Systems",
+    "dueDate": "2026-08-20",
+    "priority": "Medium",
+    "status": "Submitted"
+  },
+  {
+    "id": "3",
+    "title": "Weekly Quiz: Cloud Infrastructure",
+    "course": "CS 415: Distributed Systems",
+    "dueDate": "2026-08-05",
+    "priority": "Low",
+    "status": "Pending"
+  },
+  {
+    "id": "4",
+    "title": "Ethics in Artificial Intelligence",
+    "course": "PHI 202: Tech Ethics",
+    "dueDate": "2026-08-15",
+    "priority": "High",
+    "status": "Pending"
+  },
+  {
+    "id": "5",
+    "title": "Lab 4: Memory Management in C",
+    "course": "CS 210: Systems Programming",
+    "dueDate": "2026-08-03",
+    "priority": "Closed",
+    "status": "Submitted"
+  }
+]
