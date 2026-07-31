@@ -5,12 +5,15 @@ import {
   InputGroupInput,
 } from "@/components/ui/input-group"
 
-export function TopNav() {
+export function TopNav({ onMenuClick }: { onMenuClick: () => void }) {
   return (
     <header className="fixed top-0 right-0 z-50 h-16 w-full border-b border-border bg-background shadow-sm backdrop-blur-md supports-backdrop-filter:bg-background/80 lg:w-[calc(100%-260px)]">
       <div className="max-w-container-max mx-auto flex h-full items-center justify-between px-6 py-3">
         {/* Mobile Menu */}
-        <button className="p-2 text-muted-foreground transition-colors hover:text-primary lg:hidden">
+        <button
+          onClick={onMenuClick}
+          className="p-2 text-muted-foreground transition-colors hover:text-primary lg:hidden"
+        >
           <Menu className="h-5 w-5" />
         </button>
 

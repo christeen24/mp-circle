@@ -10,6 +10,7 @@ export * from "./input-group"
 export * from "./input"
 export * from "./label"
 export * from "./latest-news"
+export * from './metric-card'
 export * from "./pagination"
 export * from "./quick-tasks"
 export * from "./skeleton"
