@@ -8,94 +8,11 @@ import {
   PaginationPrevious,
   PaginationNext,
 } from "@/components/ui"
-import type { ICourseCardProps } from "@/interfaces/course"
 import { AppLayout } from "@/components/layout/app-layout"
+import { useCourses } from "@/hooks/use-courses"
 
 export default function CoursesPage() {
-  const courses: ICourseCardProps["course"][] = [
-    {
-      id: "1",
-      title: "Computer Science 101",
-      instructor: "Dr. Alistair Smith",
-      progress: 65,
-      status: "in-progress",
-      lastAccessed: "2h ago",
-    },
-    {
-      id: "2",
-      title: "Advanced Physics & Optics",
-      instructor: "Prof. Elena Rodriguez",
-      progress: 32,
-      status: "in-progress",
-      lastAccessed: "Yesterday",
-    },
-    {
-      id: "3",
-      title: "Principles of Modern Design",
-      instructor: "Sarah Jenkins",
-      progress: 100,
-      status: "completed",
-      completedOn: "May 12",
-      lastAccessed: "Completed on May 12",
-    },
-    {
-      id: "4",
-      title: "Macroeconomics III",
-      instructor: "Dr. Marcus Vane",
-      progress: 12,
-      status: "in-progress",
-      lastAccessed: "4 days ago",
-    },
-    {
-      id: "5",
-      title: "Human Biology: Neuro Systems",
-      instructor: "Dr. Lisa Wong",
-      progress: 48,
-      status: "in-progress",
-      lastAccessed: "1h ago",
-    },
-    {
-      id: "6",
-      title: "Data Structures & Algorithms",
-      instructor: "Prof. Michael Turner",
-      progress: 78,
-      status: "in-progress",
-      lastAccessed: "3h ago",
-    },
-    {
-      id: "7",
-      title: "Environmental Science & Policy",
-      instructor: "Dr. Helena Fischer",
-      progress: 54,
-      status: "in-progress",
-      lastAccessed: "Today",
-    },
-    {
-      id: "8",
-      title: "Modern European History",
-      instructor: "Dr. Klaus Reinhardt",
-      progress: 100,
-      status: "completed",
-      completedOn: "June 21",
-      lastAccessed: "Completed on June 21",
-    },
-    {
-      id: "9",
-      title: "Introduction to Psychology",
-      instructor: "Dr. Naomi Patel",
-      progress: 27,
-      status: "in-progress",
-      lastAccessed: "5 days ago",
-    },
-    {
-      id: "10",
-      title: "Business Analytics & Intelligence",
-      instructor: "Prof. Daniel Cho",
-      progress: 89,
-      status: "in-progress",
-      lastAccessed: "6h ago",
-    },
-  ]
+  const { data: courses = [] } = useCourses()
 
   const [page, setPage] = useState(1)
   const pageSize = 6

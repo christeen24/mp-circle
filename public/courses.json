@@ -1,0 +1,94 @@
+[
+    {
+        "id": "1",
+        "title": "Computer Science 101",
+        "instructor": "Dr. Alistair Smith",
+        "progress": 65,
+        "status": "in-progress",
+        "lastAccessed": "2h ago",
+        "image": "https://picsum.photos/seed/compsci101/600/300"
+    },
+    {
+        "id": "2",
+        "title": "Advanced Physics & Optics",
+        "instructor": "Prof. Elena Rodriguez",
+        "progress": 32,
+        "status": "in-progress",
+        "lastAccessed": "Yesterday",
+        "image": "https://picsum.photos/seed/physicsoptics/600/300"
+    },
+    {
+        "id": "3",
+        "title": "Principles of Modern Design",
+        "instructor": "Sarah Jenkins",
+        "progress": 100,
+        "status": "completed",
+        "completedOn": "May 12",
+        "lastAccessed": "Completed on May 12",
+        "image": "https://picsum.photos/seed/moderndesign/600/300"
+    },
+    {
+        "id": "4",
+        "title": "Macroeconomics III",
+        "instructor": "Dr. Marcus Vane",
+        "progress": 12,
+        "status": "in-progress",
+        "lastAccessed": "4 days ago",
+        "image": "https://picsum.photos/seed/macroecon3/600/300"
+    },
+    {
+        "id": "5",
+        "title": "Human Biology: Neuro Systems",
+        "instructor": "Dr. Lisa Wong",
+        "progress": 48,
+        "status": "in-progress",
+        "lastAccessed": "1h ago",
+        "image": "https://picsum.photos/seed/neurosystems/600/300"
+    },
+    {
+        "id": "6",
+        "title": "Data Structures & Algorithms",
+        "instructor": "Prof. Michael Turner",
+        "progress": 78,
+        "status": "in-progress",
+        "lastAccessed": "3h ago",
+        "image": "https://picsum.photos/seed/dsa/600/300"
+    },
+    {
+        "id": "7",
+        "title": "Environmental Science & Policy",
+        "instructor": "Dr. Helena Fischer",
+        "progress": 54,
+        "status": "in-progress",
+        "lastAccessed": "Today",
+        "image": "https://picsum.photos/seed/environmentalscience/600/300"
+    },
+    {
+        "id": "8",
+        "title": "Modern European History",
+        "instructor": "Dr. Klaus Reinhardt",
+        "progress": 100,
+        "status": "completed",
+        "completedOn": "June 21",
+        "lastAccessed": "Completed on June 21",
+        "image": "https://picsum.photos/seed/europeanhistory/600/300"
+    },
+    {
+        "id": "9",
+        "title": "Introduction to Psychology",
+        "instructor": "Dr. Naomi Patel",
+        "progress": 27,
+        "status": "in-progress",
+        "lastAccessed": "5 days ago",
+        "image": "https://picsum.photos/seed/psych101/600/300"
+    },
+    {
+        "id": "10",
+        "title": "Business Analytics & Intelligence",
+        "instructor": "Prof. Daniel Cho",
+        "progress": 89,
+        "status": "in-progress",
+        "lastAccessed": "6h ago",
+        "image": "https://picsum.photos/seed/businessanalytics/600/300"
+    }
+]
