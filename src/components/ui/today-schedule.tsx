@@ -5,7 +5,7 @@ interface ScheduleItem {
   time: string;
   title: string;
   location: string;
-  color: "primary" | "secondary" | "muted";
+  color: "primary" | "accent" | "muted";
   attendees?: {
     image: string;
     count?: number;
@@ -31,7 +31,7 @@ export function TodaySchedule() {
       time: "11:00 - 12:30 PM",
       title: "AI Research Lab",
       location: "Innovation Hub, Lab 4",
-      color: "secondary",
+      color: "accent",
       attendees: [
         {
           image:
@@ -54,10 +54,10 @@ export function TodaySchedule() {
       ring: "ring-primary",
       time: "text-primary",
     },
-    secondary: {
-      dot: "bg-secondary",
-      ring: "ring-secondary",
-      time: "text-secondary",
+    accent: {
+      dot: "bg-accent",
+      ring: "ring-accent",
+      time: "text-accent-foreground",
     },
     muted: {
       dot: "bg-muted",

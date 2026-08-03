@@ -21,7 +21,18 @@ import { AppLayout } from "@/components/layout/app-layout"
 export default function DashboardPage() {
   const { user } = useAuth()
   const { data: courses } = useCourses()
-  const { data: assignments } = useAssignments()
+  const { data: assignments = [] } = useAssignments()
+
+  const dueThisWeek = (() => {
+    const now = new Date()
+    const inSevenDays = new Date()
+    inSevenDays.setDate(now.getDate() + 7)
+
+    return assignments.filter((a) => {
+      const due = new Date(a.dueDate)
+      return due >= now && due <= inSevenDays && a.status !== "Submitted"
+    }).length
+  })()
 
   const greeting = (() => {
     const hour = new Date().getHours()
@@ -39,7 +50,7 @@ export default function DashboardPage() {
         <div className="mb-8">
           <h2 className="text-text-heading text-3xl font-bold">{greeting}</h2>
           <p className="text-on-surface-variant mt-1 text-sm">
-            You have 3 assignments due this week. Stay focused!
+            You have {dueThisWeek} assignments due this week. Stay focused!
           </p>
         </div>
 
