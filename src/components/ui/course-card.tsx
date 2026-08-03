@@ -1,5 +1,5 @@
 import type { ICourseCardProps } from "@/interfaces/course"
-import { ArrowRight, User2, CheckCircle2 } from "lucide-react"
+import { ArrowRight, User2 } from "lucide-react"
 
 export function CourseCard({ course }: ICourseCardProps) {
   const isCompleted = course.status === "completed"
@@ -73,10 +73,7 @@ export function CourseCard({ course }: ICourseCardProps) {
         </span>
 
         {isCompleted ? (
-          <button className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary">
-            <CheckCircle2 className="h-4 w-4" />
-            Certificate
-          </button>
+          <></>
         ) : (
           <button className="flex items-center gap-1 text-xs text-primary hover:underline">
             Continue

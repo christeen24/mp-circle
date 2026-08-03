@@ -69,8 +69,8 @@ export default function AssignmentsPage() {
             icon={ClipboardClockIcon}
             label="Pending"
             value={pending}
-            iconColor="text-muted-foreground"
-            iconBg="bg-card"
+            iconColor="text-chart-4"
+            iconBg="bg-secondary"
           />
 
           <MetricCard
@@ -78,7 +78,7 @@ export default function AssignmentsPage() {
             label="Submitted"
             value={submitted}
             iconColor="text-primary"
-            iconBg="bg-card"
+            iconBg="bg-secondary"
           />
 
           <MetricCard
@@ -86,7 +86,7 @@ export default function AssignmentsPage() {
             label="Late"
             value={late}
             iconColor="text-destructive"
-            iconBg="bg-card"
+            iconBg="bg-secondary"
           />
 
           <MetricCard
@@ -144,10 +144,10 @@ export default function AssignmentsPage() {
                       variant="outline"
                       className={
                         a.priority === "High"
-                          ? "border-destructive text-destructive"
+                          ? "bg-destructive text-white"
                           : a.priority === "Medium"
-                            ? "border-primary text-primary"
-                            : "border-border text-muted-foreground"
+                            ? "bg-primary text-white"
+                            : "bg-border text-white"
                       }
                     >
                       {a.priority}
